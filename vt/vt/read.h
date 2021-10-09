@@ -9,7 +9,9 @@ using namespace Eigen;
 using namespace std;
 
 
-void readObjFile(std::string filename, std::vector<std::array<float, 3> >& pts, std::vector<std::array<int, 3> >& facets) {
+void readObjFile(std::string filename, MatrixXd& V, MatrixXi& F) {
+	std::vector<std::array<float, 3> > pts;
+	std::vector<std::array<int, 3> > facets;
 	pts.clear();
 	facets.clear();
 	std::fstream pointCouldStream;
@@ -40,7 +42,24 @@ void readObjFile(std::string filename, std::vector<std::array<float, 3> >& pts, 
 		}
 	}
 	pointCouldStream.close();
-	std::cout << "\nload data From obj file done!\n\n";
-	cout << pts[0][0] << endl;
-	cout << facets.size() << endl;
+	int row = pts.size();
+	V = MatrixXd::Random(row, 3);
+	for (int i = 0; i < row; i++) {
+		for (int j = 0; j < 3; j++) {
+			V(i,j) = pts[i][j];
+		}
+	}
+	row = facets.size();
+	F= MatrixXi::Random(row, 3);
+	for (int i = 0; i < row; i++) {
+		for (int j = 0; j < 3; j++) {
+			F(i, j) = facets[i][j];
+		}
+	}
+
+	cout << V << endl;
+	cout << F << endl;
+
+
+
 }
